@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyNote</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+            transition: background-color 0.3s ease;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+        }
+
+        #container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        #note {
+            min-height: 200px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            outline: none;
+            width: 100%;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        #note:focus {
+            border-color: #3498db;
+        }
+        .cleared{
+            text-align: center;
+        }
+        .clear {
+            color: #cc0000;
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            padding: 10px;
+            border: 1px;
+            border-radius: 20px;
+            background:#000;
+        }
+
+        .clear:hover {
+            color: hsl(315, 100%, 50%);
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        @media only screen and (max-width: 600px) {
+            #container {
+                padding: 10px;
+            }
+
+            #note {
+                font-size: 14px;
+            }
+        }
+    </style>
+    <script>
+        function getNote(){
+            if(localStorage.getItem('note')){
+                var note = localStorage.getItem('note');
+            } else {
+                var note = 'Go ahead and edit the note to save in local storage';
+            }
+            document.getElementById('note').innerHTML = note;
+        }
+
+        function saveNote() {
+            var note = document.getElementById('note').innerHTML;
+            localStorage.setItem('note', note);
+        }
+
+        function clearNote() {
+            var confirmation = confirm("Are you sure you want to clear the note?");
+            if (confirmation) {
+                localStorage.clear();
+                getNote(); // Update the displayed note after clearing
+            }
+            return false;
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>MyNote</h1>
+    </header>
+
+    <section id="container">
+        <div id="note" contenteditable="true" onkeyup="saveNote()"></div>
+    </section>
+
+   
+        <div class="cleared">
+            <a href="#" onclick="javascript:clearNote();" class="clear">Clear Note</a>
+        </div>
+        <footer>
+        <p>MyNote &copy; 2024</p>
+    </footer>
+
+    <script>
+        getNote();
+    </script>
+</body>
+</html>
